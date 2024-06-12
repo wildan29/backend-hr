@@ -12,3 +12,19 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model Pengguna {
+  username String  @id @db.VarChar(50)
+  password String  @db.VarChar(50)
+  foto     String? @db.VarChar(255)
+  email    String  @unique @db.VarChar(255)
+  role     Role    @default(HRD)
+  token    String? @db.VarChar(100)
+
+  @@map("pengguna")
+}
+
+enum Role {
+  HRD
+  ADMIN
+}
