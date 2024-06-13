@@ -11,7 +11,6 @@ Request Body :
   "username": "wildan",
   "password": "apa hayo",
   "email": "wildan",
-  "jenis_kelamin": "LK",
   "role": "HRD"
 }
 ```

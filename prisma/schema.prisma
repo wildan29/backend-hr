@@ -8,14 +8,16 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// TODO 1 : Change Provider
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
+// TODO 2 : Create Model
 model Pengguna {
   username String  @id @db.VarChar(50)
-  password String  @db.VarChar(50)
+  password String  @db.VarChar(255)
   foto     String? @db.VarChar(255)
   email    String  @unique @db.VarChar(255)
   role     Role    @default(HRD)
