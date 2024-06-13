@@ -4,9 +4,13 @@
 
 import { prismaClient } from "../application/database.js";
 import { ResponseError } from "../error/response-error.js";
-import { registerUserValidation } from "../validation/user-validation.js";
+import {
+  loginUserValidation,
+  registerUserValidation,
+} from "../validation/user-validation.js";
 import { validate } from "../validation/validation.js";
 import bcrypt from "bcrypt";
+import { v4 as uuid } from "uuid";
 
 const register = async (request) => {
   const user = validate(registerUserValidation, request);
@@ -42,6 +46,67 @@ const register = async (request) => {
   };
 };
 
+const login = async (request) => {
+  const loginRequest = validate(loginUserValidation, request);
+
+  // cek if user is exsit or no
+  const user = await prismaClient.pengguna.findFirst({
+    where: {
+      OR: [
+        {
+          username: loginRequest.username,
+        },
+        {
+          email: loginRequest.username,
+        },
+      ],
+    },
+    select: {
+      username: true,
+      email: true,
+      password: true,
+    },
+  });
+
+  if (!user) {
+    throw new ResponseError(
+      401,
+      "Invalid credentials. Please check your username/email and password.",
+    );
+  }
+
+  // check password with bcyrpt
+  const isPasswordValid = await bcrypt.compare(
+    loginRequest.password,
+    user.password,
+  );
+
+  // if validation password failed
+  if (!isPasswordValid) {
+    throw new ResponseError(
+      401,
+      "Invalid credentials. Please check your username/email and password.",
+    );
+  }
+
+  // create token with uuid
+  const token = uuid().toString();
+
+  return prismaClient.pengguna.update({
+    data: {
+      token: token,
+    },
+    where: {
+      username: user.username,
+    },
+    select: {
+      token: true,
+      role: true,
+    },
+  });
+};
+
 export default {
   register,
+  login,
 };

@@ -32,3 +32,34 @@ Response Body Error :
   "errors": "username or email already registered"
 }
 ```
+
+## Login HR Account
+
+Endpoint : POST /api/user/login
+
+Request Body :
+
+```json
+{
+  "username": "wildan/email",
+  "password": "apa hayo"
+}
+```
+
+Response Body Success :
+
+```json
+{
+  "data": {
+    "token": "Account created successfully"
+  }
+}
+```
+
+Response Body Error :
+
+```json
+{
+  "errors": "Invalid credentials. Please check your username/email and password."
+}
+```
