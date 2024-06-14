@@ -51,7 +51,8 @@ Response Body Success :
 ```json
 {
   "data": {
-    "token": "Account created successfully"
+    "token": "Account created successfully",
+    "role": "HRD"
   }
 }
 ```
