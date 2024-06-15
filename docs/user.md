@@ -64,3 +64,31 @@ Response Body Error :
   "errors": "Invalid credentials. Please check your username/email and password."
 }
 ```
+
+## Get HR Account
+
+Endpoint : GET /api/user/current
+
+Headers :
+
+- Authorization : token
+
+Response Body Success
+
+```json
+{
+  "data": {
+    "username": "wildan",
+    "foto": "image-profile-1703019028740.jpg",
+    "email": "wildan@gmail.com"
+  }
+}
+```
+
+Response Body Error :
+
+```json
+{
+  "errors": "Unauthorized"
+}
+```
